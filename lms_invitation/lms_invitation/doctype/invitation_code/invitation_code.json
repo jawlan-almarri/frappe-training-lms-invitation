@@ -2,20 +2,21 @@
  "actions": [],
  "allow_bulk_edit": 1,
  "allow_rename": 1,
- "autoname": "field:code",
  "creation": "2026-06-09 14:37:17.364324",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "code",
   "course",
-  "status"
+  "status",
+  "valid_until"
  ],
  "fields": [
   {
    "fieldname": "code",
    "fieldtype": "Data",
    "label": "Code",
+   "read_only": 1,
    "unique": 1
   },
   {
@@ -25,16 +26,24 @@
    "options": "Course"
   },
   {
+   "default": "Available",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
    "options": "Available\nUsed\nExpired"
+  },
+  {
+   "fieldname": "valid_until",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Valid Until",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-06-09 14:53:49.215357",
+ "modified": "2026-06-09 18:31:10.118652",
  "modified_by": "Administrator",
  "module": "LMS Invitation",
  "name": "Invitation Code",

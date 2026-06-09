@@ -266,3 +266,18 @@ fixtures = [
         ],
     },
 ]
+
+
+doc_events = {
+    "Student Enrollment": {
+        "validate": "lms_invitation.events.validate_student_enrollment",
+        "after_insert": "lms_invitation.events.mark_invitation_code_as_used",
+    }
+}
+
+
+scheduler_events = {
+    "daily": [
+        "lms_invitation.tasks.expire_invitation_codes"
+    ]
+}
