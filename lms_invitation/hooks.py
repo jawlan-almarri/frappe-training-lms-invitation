@@ -258,22 +258,30 @@ app_license = "mit"
 
 fixtures = [
     {
-        "dt": "DocType",
-        "filters": [
-            ["name", "=", "Invitation Code"]
-        ],
-    },
-    {
-        "dt": "Module Def",
-        "filters": [
-            ["name", "=", "LMS Invitation"]
-        ],
-    },
-    {
         "dt": "Custom Field",
         "filters": [
             ["dt", "=", "Student Enrollment"],
             ["fieldname", "=", "invitation_code"],
         ],
     },
+    {
+        "dt": "Client Script",
+        "filters": [
+            ["name", "=", "Student Enrollment Invitation Code Filter"],
+        ],
+    },
 ]
+
+doc_events = {
+    "Student Enrollment": {
+        "validate": "lms_invitation.events.validate_student_enrollment",
+        "after_insert": "lms_invitation.events.mark_invitation_code_as_used",
+    }
+}
+
+
+scheduler_events = {
+    "daily": [
+        "lms_invitation.tasks.expire_invitation_codes"
+    ]
+}

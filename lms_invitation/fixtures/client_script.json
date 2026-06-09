@@ -1,0 +1,13 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Student Enrollment",
+  "enabled": 1,
+  "modified": "2026-06-09 19:15:46.288653",
+  "module": null,
+  "name": "Student Enrollment Invitation Code Filter",
+  "script": "\nfrappe.ui.form.on(\"Student Enrollment\", {\n    setup(frm) {\n        set_invitation_code_filter(frm);\n    },\n\n    refresh(frm) {\n        set_invitation_code_filter(frm);\n    },\n\n    course(frm) {\n        frm.set_value(\"invitation_code\", \"\");\n        set_invitation_code_filter(frm);\n    },\n\n    invitation_code(frm) {\n        validate_selected_invitation_code(frm);\n    },\n});\n\n\nfunction set_invitation_code_filter(frm) {\n    frm.set_query(\"invitation_code\", () => {\n        if (!frm.doc.course) {\n            return {\n                filters: [\n                    [\"Invitation Code\", \"name\", \"=\", \"\"]\n                ]\n            };\n        }\n\n        return {\n            filters: [\n                [\"Invitation Code\", \"course\", \"=\", frm.doc.course],\n                [\"Invitation Code\", \"status\", \"=\", \"Available\"],\n                [\"Invitation Code\", \"valid_until\", \">=\", frappe.datetime.get_today()]\n            ]\n        };\n    });\n}\n\n\nfunction validate_selected_invitation_code(frm) {\n    if (!frm.doc.invitation_code) {\n        return;\n    }\n\n    frappe.db.get_doc(\"Invitation Code\", frm.doc.invitation_code).then((invitation_code) => {\n        const today = frappe.datetime.get_today();\n\n        if (invitation_code.course !== frm.doc.course) {\n            frm.set_value(\"invitation_code\", \"\");\n            frappe.msgprint(__(\"The selected Invitation Code does not belong to the selected Course.\"));\n            return;\n        }\n\n        if (invitation_code.status !== \"Available\") {\n            frm.set_value(\"invitation_code\", \"\");\n            frappe.msgprint(__(\"The selected Invitation Code is not available.\"));\n            return;\n        }\n\n        if (invitation_code.valid_until && invitation_code.valid_until < today) {\n            frm.set_value(\"invitation_code\", \"\");\n            frappe.msgprint(__(\"The selected Invitation Code has expired.\"));\n        }\n    });\n}\n",
+  "view": "Form"
+ }
+]
