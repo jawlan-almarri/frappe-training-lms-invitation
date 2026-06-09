@@ -256,3 +256,24 @@ app_license = "mit"
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
+fixtures = [
+    {
+        "dt": "DocType",
+        "filters": [
+            ["name", "=", "Invitation Code"]
+        ],
+    },
+    {
+        "dt": "Module Def",
+        "filters": [
+            ["name", "=", "LMS Invitation"]
+        ],
+    },
+    {
+        "dt": "Custom Field",
+        "filters": [
+            ["dt", "=", "Student Enrollment"],
+            ["fieldname", "=", "invitation_code"],
+        ],
+    },
+]
