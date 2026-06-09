@@ -256,7 +256,6 @@ app_license = "mit"
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
-
 fixtures = [
     {
         "dt": "Custom Field",
@@ -265,8 +264,13 @@ fixtures = [
             ["fieldname", "=", "invitation_code"],
         ],
     },
+    {
+        "dt": "Client Script",
+        "filters": [
+            ["name", "=", "Student Enrollment Invitation Code Filter"],
+        ],
+    },
 ]
-
 
 doc_events = {
     "Student Enrollment": {
